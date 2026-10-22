@@ -11,6 +11,8 @@
   {"run": "npm run build", "env": {"VITE_SUPABASE_URL": "${{ secrets.VITE_SUPABASE_URL }}", "VITE_SUPABASE_ANON_KEY": "${{ secrets.VITE_SUPABASE_ANON_KEY }}"}},
   {"run": "npx cap add android"},
   {"run": "npx cap sync android"},
+  {"name": "Version code = run number", "run": "sed -i \"s/versionCode 1/versionCode ${{ github.run_number }}/\" android/app/build.gradle && grep -n versionCode android/app/build.gradle"},
+  {"name": "Use fixed signing key", "run": "mkdir -p ~/.android && cp wasselni-debug.keystore ~/.android/debug.keystore"},
   {"run": "chmod +x android/gradlew"},
   {"name": "Build APK", "working-directory": "android", "run": "./gradlew assembleDebug --no-daemon --stacktrace"},
   {"run": "cp android/app/build/outputs/apk/debug/app-debug.apk wasselni-debug.apk"},
